@@ -17,12 +17,12 @@ Ela é ideal para estudos sobre integração entre Node.js e MySQL, uso de trans
 
 ## 🗄️ Estrutura do Banco de Dados
 
-O projeto utiliza o banco de dados `teste`.  
+O projeto utiliza o banco de dados `loja`.  
 Execute o script abaixo no seu MySQL para criar as tabelas:
 
 ```sql
-CREATE DATABASE teste;
-USE teste;
+CREATE DATABASE loja;
+USE loja;
 
 CREATE TABLE produtos (
   id_produto INT NOT NULL AUTO_INCREMENT,
@@ -74,10 +74,10 @@ git clone https://github.com/izaiasmaia/loja-turma-ems.git
 cd sistema-pedidos
 ```
 
-### 2️⃣ Instale as dependências
+### 2️⃣ Atualizar as dependências
 
 ```bash
-npm install express mysql2
+npm install
 ```
 
 
