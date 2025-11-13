@@ -39,3 +39,30 @@ CREATE TABLE itens_pedido (
   CONSTRAINT fk_itens_pedido_produtos 
 	FOREIGN KEY (id_produto) REFERENCES produtos (id_produto)
 );
+
+
+
+
+-- Selecionar e retornar um JSON em um único campo
+SELECT 
+    ped.id_pedido,
+    cli.nome AS nome_cliente,
+    ped.valor_total,
+    ped.data_pedido,
+    JSON_ARRAYAGG(
+        JSON_OBJECT(
+            'id_item', ite.id_item,
+            'id_produto', pro.id_produto,
+            'nome_produto', pro.nome_produto,
+            'quantidade', ite.quantidade,
+            'valor_item', ite.valor_item
+        )
+    ) AS itens
+FROM pedidos ped
+JOIN clientes cli 
+    ON ped.id_cliente = cli.id
+JOIN itens_pedido ite 
+    ON ite.id_pedido = ped.id_pedido
+JOIN produtos pro 
+    ON pro.id_produto = ite.id_produto
+GROUP BY ped.id_pedido, cli.nome, ped.valor_total, ped.data_pedido;
