@@ -1,0 +1,210 @@
+type: collection.insomnia.rest/5.0
+name: loja - EMS
+meta:
+  id: wrk_d791cc40ff59475683b9b7cf122549aa
+  created: 1761310854432
+  modified: 1761310854432
+  description: ""
+collection:
+  - name: Produtos
+    meta:
+      id: fld_99ab6cd3367c418399ee14457d9dcc4d
+      created: 1761310908020
+      modified: 1761310908020
+      sortKey: -1761310908021
+      description: ""
+    children:
+      - url: localhost:8000/produtos
+        name: SELECT
+        meta:
+          id: req_99f60221a7df4e22867a4bf9d15866ad
+          created: 1761310913281
+          modified: 1762435815603
+          isPrivate: false
+          description: ""
+          sortKey: -1761310913281
+        method: GET
+        parameters:
+          - id: pair_41b45f07bded42bca5dced7f1bbb430f
+            name: idProduto
+            value: "5"
+            description: ""
+            disabled: true
+        headers:
+          - name: User-Agent
+            value: insomnia/11.6.2
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:8000/produtos
+        name: INSERT
+        meta:
+          id: req_f0a05a022f2547d8b8bcb57a6ba6372c
+          created: 1761314765248
+          modified: 1762433554861
+          isPrivate: false
+          description: ""
+          sortKey: -1760927142657
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"descricao": "Melancia",
+            	"valor": 2.99
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.6.2
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:8000/produtos/3
+        name: UPDATE
+        meta:
+          id: req_08623ac4d8a44e96ae4e9d07539697cf
+          created: 1762429673715
+          modified: 1762430221537
+          isPrivate: false
+          description: ""
+          sortKey: -1760735257345
+        method: PUT
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"valor": 2.49
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/11.6.2
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:8000/produtos/3
+        name: DELETE
+        meta:
+          id: req_8191509604004d758aae8bbf68e7e5e5
+          created: 1762432906960
+          modified: 1762432926618
+          isPrivate: false
+          description: ""
+          sortKey: -1761119027969
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/11.6.2
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+  - name: Pedidos
+    meta:
+      id: fld_4711562b9d1c4b80af671da2338d9adf
+      created: 1763037721337
+      modified: 1763037721337
+      sortKey: -1763037721337
+      description: ""
+    children:
+      - url: localhost:8000/pedidos
+        name: Insert Pedido
+        meta:
+          id: req_424900f4208a42eaad6b407364395377
+          created: 1763037725039
+          modified: 1763041232799
+          isPrivate: false
+          description: ""
+          sortKey: -1763037725039
+        method: POST
+        body:
+          mimeType: application/json
+          text: |-
+            {
+            	"id_cliente": 1,
+            	"valor_total": 5.98,
+            	"data_pedido": "2025-11-13",
+            	"id_produto": 99,
+            	"quantidade": 2,
+            	"valor_item": 2.99
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: localhost:8000/pedidos/novoItem
+        name: Insert Item
+        meta:
+          id: req_f21babdc3e40497796cdd925790b69b4
+          created: 1763041215493
+          modified: 1763041730240
+          isPrivate: false
+          description: ""
+          sortKey: -1762346951248
+        method: POST
+        body:
+          mimeType: application/json
+          text: |
+            {
+            	"id_pedido": 1,
+            	"id_produto": 5,
+            	"quantidade": 1,
+            	"valor_item": 2.99
+            }
+        headers:
+          - name: Content-Type
+            value: application/json
+          - name: User-Agent
+            value: insomnia/12.0.0
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_9c91623f6805d9e6b35879842fe16c8b270799ed
+    created: 1761310854466
+    modified: 1761310854466
+environments:
+  name: Base Environment
+  meta:
+    id: env_9c91623f6805d9e6b35879842fe16c8b270799ed
+    created: 1761310854460
+    modified: 1761310854460
+    isPrivate: false
