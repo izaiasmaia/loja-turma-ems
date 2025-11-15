@@ -33,7 +33,7 @@ const clienteController = {
 
     incluiRegistro: async (req, res) => {
         try {
-            const { nome, cpf } = req.body;            
+            
 
             if (!nome?.trim() || !cpf?.trim() || !isNaN(nome) || cpf.length !== 11) {
                 return res.status(400).json({ message: 'Verifique os dados enviados e tente novamente' });

@@ -2,15 +2,29 @@ const { pedidoModel } = require('../models/pedidoModel');
 
 
 const pedidoController = {
+    selecionaPedidos: async (req, res) => {
+        try {
+            const resultado = await pedidoModel.selectPedido();
+            if (resultado.length === 0) {
+                res.status(201).json({ message: 'Não há pedidos a serem mostrados' });
+            }
+
+            res.status(201).json({ message: 'Resultado', data: resultado });
+
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Ocorreu um erro no servidor', errorMessage: error.message })
+        }
+    },
     criarPedido: async (req, res) => {
         try {
-            const { id_cliente, valor_total, data_pedido, id_produto, quantidade, valor_item } = req.body;
+            const { id_cliente, data_pedido, id_produto, quantidade} = req.body;
 
-            if (!id_cliente || !valor_total || !data_pedido || !id_produto || !quantidade || !valor_item) {
+            if (!id_cliente || !data_pedido || !id_produto || !quantidade ) {
                 return res.status(400).json({ message: 'Verifique os dados enviados e tente novamente' });
             }
 
-            const resultado = await pedidoModel.insertPedido(id_cliente, valor_total, data_pedido, id_produto, quantidade, valor_item);
+            const resultado = await pedidoModel.insertPedido(id_cliente, data_pedido, id_produto, quantidade);
 
             res.status(201).json({ message: 'Registro incluído com sucesso', data: resultado });
 
@@ -24,13 +38,71 @@ const pedidoController = {
         try {
             const { id_pedido, id_produto, quantidade, valor_item } = req.body;
 
-            if (!id_pedido || !id_produto || !quantidade || !valor_item) {
+            if (!id_pedido || !id_produto || !valor_item || !quantidade) {
                 return res.status(400).json({ message: 'Verifique os dados enviados e tente novamente' });
             }
 
             const resultado = await pedidoModel.insertItem(id_pedido, id_produto, quantidade, valor_item);
 
-            res.status(201).json({ message: 'Registro incluído com sucesso', data: resultado });
+            res.status(201).json({ message: 'Item incluído com sucesso', data: resultado });
+
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Ocorreu um erro no servidor', errorMessage: error.message })
+        }
+    },
+
+    alterarItem: async (req, res) => {
+        try {
+            const idItem = Number(req.params.idItem);
+            const { quantidade} = req.body;
+
+            if (!idItem || !quantidade || quantidade <= 0 ) {
+                return res.status(400).json({ message: 'Verifique os dados enviados e tente novamente' });
+            }
+
+            const itemAtual = await pedidoModel.selectItemById(idItem);
+            if (itemAtual.length === 0) {
+                return res.status(200).json({ message: 'Item não localizado' });
+            }
+            const resultUpdate = await pedidoModel.updateQtdItem(idItem, quantidade);
+
+
+            if (resultUpdate.affectedRows === 1 && resultUpdate.changedRows === 0) {
+                return res.status(200).json({ message: 'Não há alterações a serem realizadas' });
+            }
+
+            if (resultUpdate.affectedRows === 1 && resultUpdate.changedRows === 1) {
+                res.status(200).json({ message: 'Registro alterado com sucesso' });
+            }
+
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Ocorreu um erro no servidor', errorMessage: error.message })
+        }
+    },
+    excluirItem: async (req, res) => {
+        try {
+            const idPedido = Number(req.params.idPedido);
+            const idItem = Number(req.params.idItem);
+
+            if (!idPedido || !Number.isInteger(idPedido) || !idItem || !Number.isInteger(idItem)) {
+                return res.status(400).json({ message: 'Forneça um identificador válido' });
+            }
+
+            const itemSelecionado = await pedidoModel.selectItemById(idItem);
+            if (itemSelecionado.length === 0) {
+                return res.status(200).json({ message: 'Item não localizado na base de dados' });
+            }
+
+            const resultadoDelete = await pedidoModel.deleteItem(idPedido, idItem);
+            console.log(resultadoDelete.affectedRows);
+
+            if (resultadoDelete.affectedRows === 0) {
+                return res.status(200).json({ message: 'Ocorreu um erro ao excluir o item' });
+            }
+
+            res.status(200).json({ message: 'Item excluído com sucesso', data: resultadoDelete });
 
         } catch (error) {
             console.error(error);
